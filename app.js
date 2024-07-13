@@ -1,16 +1,15 @@
 const express = require("express");
 const app = express();
-const port = 3000;
+// const port = 3000;
 const path = require("path");
 const dotenv = require("dotenv");
 const hbs = require("hbs");
-const multer = require("multer");
-
+const uploadRouter = require("./routes/uploadRoutes");//Importa router de upload
 
 
 //Cargar variable de entorno
 dotenv.config();
-const { default: axios } = require("axios");
+const PORT = process.env.PORT || 3000;
 
 //Middleware para servir contenido estatico desde la carpeta public
 app.use(express.static(path.join(__dirname,"public")));
@@ -22,16 +21,11 @@ app.set("views", path.join(__dirname, "views"));
 //Registrar parciales
 hbs.registerPartials(path.join(__dirname, "views", "partials"));
 
-//Configuración de Multer para la carga de archivos
-const storage = multer.diskStorage({
-  destination: function(req, file, cb){
-    cb(null, path.join(__dirname, "uploads"))//Directorio donde se guardan los archivos subidos 
-  },
-  filename: function(req, file, cb){
-    cb(null, file.originalname);//Nombre original del archivo subido
-  },
-});
-const upload = multer({ storage: storage });
+
+
+//Configuración de rutas
+app.use("/upload",uploadRouter );
+
 
 //Rutas principales
 app.get('/', function (req, res) {
@@ -43,25 +37,7 @@ app.get('/', function (req, res) {
   });
 });
 
-//Ruta para mostrar el formulario de carga de archivos
-app.get("/upload-form", function (req, res) {
-  res.render("upload-form", {
-    layout: "layouts/main",
-    title: "Carga de archivos",
-    message: "Formulario de carga de archivos.",
 
-  });
-});
-
-//Ruta para manejar la carga del archivo(POST)
-
-app.post("/upload", upload.single("file"), (req, res) => {
-  res.render("upload-success", {
-    title: "Carga Exitosa",
-    message: "Archivo cargado exitosamente",
-    filename: req.file.filename
-  });
-});
 
 app.get("/acerca", function(req, res)  {
   res.render("acerca", {
@@ -142,7 +118,7 @@ app.use((req, res, next) => {
 
 
 //Iniciar servidor
-const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () =>{
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });

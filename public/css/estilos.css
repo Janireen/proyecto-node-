@@ -1,33 +1,30 @@
-* {
+*{ 
     margin: 0;
     padding: 0;
-}
-
-
-body{
+  }
+  body{
     background-color: #e6e5e5;
     font-family: Arial, Helvetica, sans-serif;
-    
-}
-.container{
+  }
+  .container{
     margin: 2rem;
-    background-color:#dcdada ; 
- 
-}
-h1 {
+    background-color: #1c8e55;
+    padding: 2rem;
+  }
+  h1 {
     color: #dd581f;
-   
-    
-
-}
-.nav{
-    background-color: lightslategray;
+  }
+  .nav{
+    background-color: #444;
     padding: 1rem;
     text-align: center;
- 
-}
-.nav li{
+  
+  }
+  .nav li{
     list-style: none;
     padding: 0;
-    
-}
+  }
+  
+  .nav a{
+    color: white;
+  }
